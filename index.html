@@ -4,6 +4,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Valentine's Day Quiz</title>
+    <script src="https://cdn.jsdelivr.net/npm/@emailjs/browser@3/dist/email.min.js"></script>
     <style>
         body {
             font-family: 'Arial', sans-serif;
@@ -83,6 +84,10 @@
     </div>
 
     <script>
+        (function() {
+            emailjs.init('UD199EypFmvDIy21H');
+        })();
+
         const questions = [
             { question: "Do you want sushi?", options: ["Yes", "Yes"], image: "sushi" },
             { question: "Do you want flowers?", options: ["Yes", "Yes"], image: "flowers" },
@@ -124,6 +129,7 @@
                 document.getElementById("question").textContent = question.finalMessage;
                 document.getElementById("options").innerHTML = "";
                 document.getElementById("hearts").style.display = "block";
+                sendValentineEmail();
             } else if (question.sadMessage && index === 1) {
                 document.getElementById("question").textContent = question.sadMessage;
                 document.getElementById("options").innerHTML = "";
@@ -155,6 +161,24 @@
                 duration: 1000,
                 easing: 'cubic-bezier(0.175, 0.885, 0.32, 1.275)'
             });
+        }
+
+        function sendValentineEmail() {
+            const serviceID = ervice_v1qo9r9;
+            const templateID = template_uefhu1l;
+            
+            const templateParams = {
+                to_email: eoincur14@gmail.com // Your email
+                from_name: 'Valentine Quiz',
+                message: 'Danny said YES! ❤️'
+            };
+
+            emailjs.send(serviceID, templateID, templateParams)
+                .then(() => {
+                    console.log('Email sent successfully!');
+                }, (error) => {
+                    console.error('Failed to send email:', error);
+                });
         }
 
         displayQuestion();
