@@ -4,8 +4,70 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Valentine's Day Quiz</title>
-    <link rel="stylesheet" href="styles.css">
-    <link rel="icon" type="image/png" href="favicon.png">
+    <style>
+        body {
+            font-family: 'Arial', sans-serif;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            background-color: #ffcccc;
+            text-align: center;
+        }
+        #quiz-container {
+            background: linear-gradient(135deg, #ff758c, #ff7eb3);
+            padding: 30px;
+            border-radius: 15px;
+            box-shadow: 0 0 20px rgba(255, 0, 102, 0.5);
+            color: white;
+            max-width: 400px;
+        }
+        h1 {
+            font-size: 24px;
+        }
+        button {
+            margin: 10px;
+            padding: 12px 20px;
+            font-size: 18px;
+            border: none;
+            border-radius: 8px;
+            cursor: pointer;
+            transition: 0.3s;
+        }
+        .yes-btn {
+            background-color: #ff4d6d;
+            color: white;
+        }
+        .yes-btn:hover {
+            background-color: #e6004c;
+        }
+        .no-btn {
+            background-color: #333;
+            color: white;
+        }
+        .no-btn:hover {
+            background-color: #555;
+        }
+        #image-container img {
+            max-width: 200px;
+            max-height: 200px;
+            display: none;
+        }
+        .hearts {
+            display: none;
+            font-size: 50px;
+            color: #ff4d6d;
+            animation: glow 1s infinite alternate;
+        }
+        @keyframes glow {
+            from {
+                text-shadow: 0 0 10px #ff4d6d;
+            }
+            to {
+                text-shadow: 0 0 20px #ff002b;
+            }
+        }
+    </style>
 </head>
 <body>
     <div id="quiz-container">
@@ -22,9 +84,9 @@
 
     <script>
         const questions = [
-            { question: "Do you want sushi?", options: ["Yes", "No"], image: "sushi" },
-            { question: "Do you want flowers?", options: ["Yes", "No"], image: "flowers" },
-            { question: "Do you want chocolate?", options: ["Yes", "No"], image: "chocolate" },
+            { question: "Do you want sushi?", options: ["Yes", "Yes"], image: "sushi" },
+            { question: "Do you want flowers?", options: ["Yes", "Yes"], image: "flowers" },
+            { question: "Do you want chocolate?", options: ["Yes", "Yes"], image: "chocolate" },
             { 
                 question: "Will you be my valentine?", 
                 options: ["Yes", "No"], 
@@ -55,22 +117,21 @@
 
         function selectOption(option, index) {
             const question = questions[currentQuestion];
-            if (question.image && index === 0) {
+            if (question.image) {
                 showImage(question.image);
-            }
-            if (index === 1) {
-                document.getElementById("question").textContent = "Oh no! Try again?";
-                document.getElementById("options").innerHTML = "";
-                document.getElementById("sad").style.display = "inline-block";
-                setTimeout(() => {
-                    displayQuestion();
-                }, 2000);
-                return;
             }
             if (question.finalMessage && index === 0) {
                 document.getElementById("question").textContent = question.finalMessage;
                 document.getElementById("options").innerHTML = "";
                 document.getElementById("hearts").style.display = "block";
+            } else if (question.sadMessage && index === 1) {
+                document.getElementById("question").textContent = question.sadMessage;
+                document.getElementById("options").innerHTML = "";
+                document.getElementById("sad").style.display = "inline-block";
+                setTimeout(() => {
+                    currentQuestion = 0;
+                    displayQuestion();
+                }, 2000);
             } else {
                 currentQuestion++;
                 if (currentQuestion < questions.length) {
